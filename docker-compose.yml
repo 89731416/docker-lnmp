@@ -83,3 +83,28 @@ services:
       networks:
         - net-app
 
+  #jenkins
+  jenkins:
+    image: jenkins/jenkins:2.319.3-lts
+    container_name: "jenkins"
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - ./data/:/var/jenkins_home/
+  #rabbitmq
+  rabbitmq:
+    image: rabbitmq:3.8.3-management
+    container_name: rabbitmq
+    restart: always
+    # hostname: myRabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=root  #账号
+      - RABBITMQ_DEFAULT_PASS=root  #密码
+    networks:
+        - net-app
